@@ -79,7 +79,7 @@ class Comment(models.Model):
     """
     APPROVED = 'approved'
     PENDING = 'pending'
-    DENIED = 'denied'
+    DENIED = 'post'
     APPROVED_CHOICES = [
         (APPROVED, 'Approved'),
         (PENDING, 'Pending'),
@@ -96,13 +96,7 @@ class Comment(models.Model):
         max_length = 100,
         null = False,
     )
-    """models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.PROTECT,
-        related_name='blog_posts',
-        null=False,
-    )
-    """
+    
     email = models.CharField(
         max_length=255,
         null=False,

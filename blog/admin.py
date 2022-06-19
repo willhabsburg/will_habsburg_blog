@@ -22,6 +22,16 @@ class CommentAdmin(admin.ModelAdmin):
 class CommentInline(admin.TabularInline):
     model = Comment
     fk_name = "post"
+    """
+    Thanks to https://stackoverflow.com/questions/17118320/how-to-add-readonly-inline-on-django-admin for the readonly fields
+    """
+    fields = ('name', 'email', 'text', 'approved')
+    readonly_fields = ('name', 'email', 'text')
+    """
+    Thanks to https://cmsdk.com/python/how-hide-delete-item-in-django-admin-tabularinline.html for no delete button
+    """
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 class PostAdmin(admin.ModelAdmin):
     list_display = (
