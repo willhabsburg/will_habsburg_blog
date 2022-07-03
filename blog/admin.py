@@ -73,9 +73,7 @@ class CommentAdmin(admin.ModelAdmin):
     )
     search_fields = (
         'text',
-        'name__username',
-        'name__first_name',
-        'name__last_name',
+        'name',
     )
 
 
