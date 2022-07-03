@@ -8,10 +8,7 @@ def home(request):
     # Get last 3 posts
     latest_posts = models.Post.objects.filter(status=models.Post.PUBLISHED).order_by('-published')[:3]
     # Get Topic list
-    topics = {}
-    #for post in latest_posts:
-    #    if post.
-    all_topics = models.Topic.objects.annotate(Count('blog_posts'))
+    all_topics = models.Topic.objects.annotate(Count('blog_posts')).order_by('-blog_posts__count')[:10]
     # Add as context variable "latest_posts"
     context = {
         'latest_posts': latest_posts,

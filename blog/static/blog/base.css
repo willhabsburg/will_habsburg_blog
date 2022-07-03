@@ -33,19 +33,6 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Style the header area */
-#site-header h1 {
-  padding: 0;
-  margin: 0;
-}
-
-#site-header p {
-  font-size: 0.9rem;
-  color: #666;
-  padding: 0;
-  margin: 0;
-}
-
 /* Style the top nav */
 #top-nav {
   padding: 0.5rem 0;
@@ -76,11 +63,6 @@ a:hover {
   display: grid;
   /* The grid has 2 columns. 1 with auto width, the other is 200px wide */
   grid-template-columns: auto 200px;
-}
-
-/* Style the footer */
-#site-footer {
-  font-size: 0.9rem;
 }
 
 #headerpic {
