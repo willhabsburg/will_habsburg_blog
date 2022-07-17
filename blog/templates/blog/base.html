@@ -27,16 +27,15 @@
         </div>
     </header>
 
-    <!-- Top navigation Hidden until needed
     <nav id="top-nav">
         <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Posts</a></li>
+            <li><a href="{% url "home" %}">Home</a></li>
+            <li><a href="{% url "about" %}">About</a></li>
+            <li><a href="{% url "post-list" %}">Posts</a></li>
+            <li><a href="{% url "topic-list" %}">Topics</a></li>
             <li><a href="#">Contact</a></li>
         </ul>
     </nav>
-    -->
 
     <main id="main-content">
         <div>
@@ -49,7 +48,7 @@
             <h2 class="text-primary">Topics:</h2>
             <ul>
                 {% for topic in all_topics %}
-                <li>{{ topic.name }} ({{ topic.blog_posts__count }})</li>
+                    <li><a href="{{ topic.get_absolute_url }}">{{ topic.name }} ({{ topic.blog_posts__count }})</a></li>
                 {% endfor %}
             </ul>
         </aside>

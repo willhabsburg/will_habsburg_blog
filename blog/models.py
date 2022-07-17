@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
 
 class Topic(models.Model):
     """
@@ -18,6 +19,9 @@ class Topic(models.Model):
     class Meta:
         ordering = ['name']
 
+    def get_absolute_url(self):
+        kwargs = {'slug': self.slug}
+        return reverse('topic-detail', kwargs=kwargs)
 
 
 class Post(models.Model):
@@ -72,6 +76,19 @@ class Post(models.Model):
         
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        if self.published:
+            kwargs = {
+                'year': self.published.year,
+                'month': self.published.month,
+                'day': self.published.day,
+                'slug': self.slug
+            }
+        else:
+            kwargs = {'pk': self.pk}
+
+        return reverse('post-detail', kwargs=kwargs)
 
 class Comment(models.Model):
     """
