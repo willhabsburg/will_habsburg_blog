@@ -112,3 +112,20 @@ a:hover {
 .topic {
   font-size: 85%;
 }
+
+/* Messages */
+.django-messages {
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 0;
+  list-style: none;
+}
+
+.django-messages div {
+  padding: 1rem;
+}
+
+.django-messages .success {
+  background: #bdfcb3;
+  color: #355430;
+}

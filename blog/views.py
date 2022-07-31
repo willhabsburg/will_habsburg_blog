@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
-from django.views.generic import ListView
-from django.views.generic import DetailView
 from . import models
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, CreateView, FormView, ListView
+from django.contrib import messages
 
 class HomeView(TemplateView):
     """The Blog homepage"""
@@ -56,3 +57,38 @@ class TopicDetailView(DetailView):
     model = models.Topic
     def get_queryset(self):
         return super().get_queryset().order_by('blog_posts__published')
+
+class ContactFormView(CreateView):
+    model = models.Contact
+    success_url = reverse_lazy('home')
+    fields = [
+        'first_name',
+        'last_name',
+        'email',
+        'message',
+    ]
+
+    def form_valid(self, form):
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            'Thank you! Your message has been sent.'
+        )
+        return super().form_valid(form)
+
+class PhotoContestFormView(CreateView):
+    model = models.PhotoContest
+    success_url = reverse_lazy('home')
+    fields = [
+        'name',
+        'email',
+        'photo',
+    ]
+
+    def form_valid(self, form):
+        messages.add_message(
+            self.request,
+            messages.SUCCESS,
+            'Thank you! Your submission has been received.'
+        )
+        return super().form_valid(form)

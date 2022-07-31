@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.urls import reverse
+from ckeditor_uploader.fields import RichTextUploadingField
 
 class Topic(models.Model):
     """
@@ -40,7 +41,7 @@ class Post(models.Model):
         max_length=255,
         null=False,
     )
-    content = models.TextField()
+    content = RichTextUploadingField()
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.PROTECT,
@@ -69,6 +70,11 @@ class Post(models.Model):
     topics = models.ManyToManyField(
         Topic,
         related_name = 'blog_posts',
+    )
+    banner = models.ImageField(
+        blank=True,
+        null=True,
+        help_text='A banner image for the post'
     )
 
     class Meta:
@@ -137,3 +143,26 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['-created']
+
+class Contact(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email = models.EmailField()
+    message = models.TextField()
+    submitted = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-submitted']
+
+    def __str__(self):
+        return f'{self.submitted.date()}: {self.email}'
+
+class PhotoContest(models.Model):
+    name = models.CharField(max_length=50)
+    email = models.EmailField(max_length=50)
+    photo = models.ImageField(
+        blank=True,
+        null=True,
+        help_text='Image submitted by user'
+    )
+    submitted = models.DateTimeField(auto_now_add=True)

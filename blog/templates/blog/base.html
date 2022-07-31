@@ -2,6 +2,13 @@
 <html lang="en">
 
 <head>
+    {% if messages %}
+        <div class="django-messages">
+        {% for message in messages %}
+            <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</div>
+        {% endfor %}
+        </div>
+    {% endif %}
     <meta charset="utf-8">
     <title>Will's Blog - {% block page_title %}An awesome blog{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,7 +40,9 @@
             <li><a href="{% url "about" %}">About</a></li>
             <li><a href="{% url "post-list" %}">Posts</a></li>
             <li><a href="{% url "topic-list" %}">Topics</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="{% url "photocontest" %}">Photo Contest!</a></li>
+            <li><a href="{% url "contact" %}">Contact</a></li>
+        
         </ul>
     </nav>
 

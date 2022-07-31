@@ -76,7 +76,46 @@ class CommentAdmin(admin.ModelAdmin):
         'name',
     )
 
-
 admin.site.register(models.Post, PostAdmin)
 admin.site.register(models.Topic, TopicAdmin)
 admin.site.register(models.Comment, CommentAdmin)
+
+@admin.register(models.Contact)
+class ContactAdmin(admin.ModelAdmin):
+    list_display = (
+        'email',
+        'last_name',
+        'first_name',
+        'submitted'
+    )
+    # Make these fields read-only in the admin
+    readonly_fields = (
+        'first_name',
+        'last_name',
+        'email',
+        'message',
+        'submitted'
+    )
+
+@admin.register(models.PhotoContest)
+class PhotoContestAdmin(admin.ModelAdmin):
+    list_display = (
+        'name',
+        'email',
+        'photo'
+    )
+    list_filter = (
+        'name',
+        'email',
+    )
+    search_fields = (
+        'name',
+        'email',
+    )
+    # Make these fields read-only in the admin
+    readonly_fields = (
+        'name',
+        'email',
+        'photo',
+        'submitted'
+    )
