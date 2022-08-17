@@ -25,6 +25,11 @@ class Topic(models.Model):
         return reverse('topic-detail', kwargs=kwargs)
 
 
+
+class PostQuerySet(models.QuerySet):
+    def published(self):
+        return self.filter(status=self.model.PUBLISHED)
+
 class Post(models.Model):
     """
     Represents a blog post
@@ -77,6 +82,8 @@ class Post(models.Model):
         help_text='A banner image for the post'
     )
 
+    objects = PostQuerySet.as_manager()
+
     class Meta:
         ordering = ['-created']
         
@@ -96,10 +103,15 @@ class Post(models.Model):
 
         return reverse('post-detail', kwargs=kwargs)
 
+class CommentQuerySet(models.QuerySet):
+    def get_queryset(self):
+        return self
+
 class Comment(models.Model):
     """
     A model to represent blog post comments
-    """
+    
+    Below is the old class, new class at end of comment
     APPROVED = 'approved'
     PENDING = 'pending'
     DENIED = 'post'
@@ -140,6 +152,27 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['-created']
+    """
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        related_name='comments'
+    )
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    text = models.TextField()
+    approved = models.BooleanField(default=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    likes = models.IntegerField(default=0)
+    dislikes = models.IntegerField(default=0)
+    objects = CommentQuerySet.as_manager()
+
+    def __str__(self):
+        return f'{self.name} re: {self.post}'
 
     class Meta:
         ordering = ['-created']

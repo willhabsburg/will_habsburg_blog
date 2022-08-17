@@ -67,6 +67,12 @@
     <footer class="container-lg bg-primary text-white">
         <p>&copy; {% now 'Y' %}, William Habsburg, Mohawk College</p>
     </footer>
+    {% block js %}
+        <script src="{% static "blog/csrf.js" %}"></script>
+        <script src="{% static "blog/comments.js" %}"></script>
+        <script src="{% static "blog/likedislike.js" %}"></script>
+    {% endblock %}
+</body>
 </body>
 
 </html>

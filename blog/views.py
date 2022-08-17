@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
-from . import models
+from . import models, forms
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, CreateView, FormView, ListView
 from django.contrib import messages
@@ -14,7 +14,7 @@ class HomeView(TemplateView):
         context = super().get_context_data(**kwargs)
         
         # Get last 3 posts
-        latest_posts = models.Post.objects.filter(status=models.Post.PUBLISHED).order_by('-published')[:3]
+        latest_posts = models.Post.objects.published().order_by('-published')[:3]
 
         # Update the context with our context variables
         context.update({
@@ -30,7 +30,7 @@ class AboutView(TemplateView):
 class PostListView(ListView):
     model = models.Post
     context_object_name = 'posts'
-    queryset = models.Post.objects.filter(status=models.Post.PUBLISHED).order_by('-published')
+    queryset = models.Post.objects.published().order_by('-published')
 
 class PostDetailView(DetailView):
     model = models.Post
@@ -41,12 +41,26 @@ class PostDetailView(DetailView):
             return super().get_queryset()
 
         # Otherwise, filter on the published date
-        queryset = super().get_queryset().filter(status=models.Post.PUBLISHED)
+        queryset = super().get_queryset().published()
         return queryset.filter(
             published__year=self.kwargs['year'],
             published__month=self.kwargs['month'],
             published__day=self.kwargs['day'],
         )
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Get the post object
+        post = self.get_object()
+
+        # Set the post field on the form
+        comment_form = forms.CommentForm(initial={'post': post})
+        comments = models.Comment.objects.filter(post=post)
+
+        context['comment_form'] = comment_form
+        context['comments'] = comments.order_by('-created')
+
+        return context
 
 class TopicListView(ListView):
     model = models.Topic
