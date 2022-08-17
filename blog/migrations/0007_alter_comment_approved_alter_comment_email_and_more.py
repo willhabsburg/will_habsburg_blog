@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='comment',
             name='approved',
-            field=models.BooleanField(default=True),
+            field=models.CharField(choices=[('approved', 'Approved'), ('pending', 'Pending'), ('post', 'Denied')], default='approved', help_text='Set to "Approved" to make this comment visible to users', max_length=10),
         ),
         migrations.AlterField(
             model_name='comment',
