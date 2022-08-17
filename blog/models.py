@@ -108,54 +108,6 @@ class CommentQuerySet(models.QuerySet):
         return self
 
 class Comment(models.Model):
-    """
-    A model to represent blog post comments
-    
-    Below is the old class, new class at end of comment
-    APPROVED = 'approved'
-    PENDING = 'pending'
-    DENIED = 'post'
-    APPROVED_CHOICES = [
-        (APPROVED, 'Approved'),
-        (PENDING, 'Pending'),
-        (DENIED, 'Denied')
-    ]
-
-    post = models.ForeignKey(
-        Post,
-        on_delete=models.PROTECT,
-        related_name='comments',
-        null=False,
-    )
-    name = models.CharField(
-        max_length = 100,
-        null = False,
-    )
-    
-    email = models.CharField(
-        max_length=255,
-        null=False,
-    )
-    text = models.TextField(
-        max_length=2048,
-        null=False,
-    )
-    approved = models.CharField(
-        max_length=10,
-        choices=APPROVED_CHOICES,
-        default=PENDING,
-        help_text='Set to "Approved" to make this comment visible to users',
-        null=False,
-    )
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        ordering = ['-created']
-    """
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
@@ -164,7 +116,7 @@ class Comment(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
     text = models.TextField()
-    approved = models.BooleanField(default=True)
+    #approved = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     likes = models.IntegerField(default=0)
